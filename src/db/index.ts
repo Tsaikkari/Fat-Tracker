@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-import colors from 'colors'
 
 const MONGO_URI = process.env.MONGODB_URI || 'mongodb://localhost/fatTracker'
 const DB_NAME = process.env.DB_NAME
@@ -12,5 +11,5 @@ mongoose
     )
   })
   .catch((err) => {
-    console.error('Error connecting to mongo: ', err.red.bold)
+    console.error('Error connecting to mongo: ', err)
   })
