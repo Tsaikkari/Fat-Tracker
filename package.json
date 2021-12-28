@@ -4,7 +4,7 @@
   "description": "This is an app that will track the fat that you're going to lose on a weekly basis. Your progress is displayed in a chart so that you can enjoy your success or improve your procedures.",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"npm run watch-ts\" \"npm run watch-js\"",
+    "start": "concurrently \"npm run watch-ts\" \"npm run watch-js\" \"./scripts/db.sh\"",
     "watch-ts": "tsc --watch",
     "watch-js": "nodemon dist/index.js",
     "build-ts": "tsc",
@@ -13,9 +13,16 @@
   "author": "Kirsi Trospe",
   "license": "MIT",
   "dependencies": {
-    "@types/express": "^4.17.13",
+    "colors": "^1.4.0",
     "concurrently": "^6.5.1",
+    "dotenv": "^10.0.0",
     "express": "^4.17.2",
+    "mongoose": "^6.1.4",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/mongoose": "^5.11.97",
     "nodemon": "^2.0.15",
     "typescript": "^4.5.4"
   }
