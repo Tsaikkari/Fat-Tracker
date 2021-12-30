@@ -13,10 +13,7 @@ const sportSchema = new Schema(
       type: String,
       required: true
     },
-    date: {
-      type: Date,
-      required: true
-    },
+    date: Date,
     duration: Number,
     user: { type: Schema.Types.ObjectId, ref: 'User' }
   },

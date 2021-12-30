@@ -1,7 +1,7 @@
 import express from 'express'
 import passport from 'passport'
 
-import { googleLogin } from '../controllers/auth'
+import { googleLogin, googleLogin2 } from '../controllers/auth'
 
 const router = express.Router()
 
@@ -9,9 +9,10 @@ router.post('/login/google', googleLogin)
 
 router.post('/google/callback', 
   passport.authenticate('google', {
-    scope: ['profile', 'email']
+    scope: ['profile', 'email'], 
+    session: false
   }),
-  googleLogin
+  googleLogin2
 )
 
 export default router

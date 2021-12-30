@@ -13,6 +13,8 @@
   "author": "Kirsi Trospe",
   "license": "MIT",
   "dependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "concurrently": "^6.5.1",
     "cors": "^2.8.5",

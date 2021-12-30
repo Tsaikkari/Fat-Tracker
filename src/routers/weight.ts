@@ -1,8 +1,8 @@
 import express from 'express'
-import { createWeight } from '../controllers/weight'
+import { updateWeight } from '../controllers/weight'
 
 const router = express.Router()
 
-router.post('/', createWeight)
+router.put('/:weightId', updateWeight)
 
 export default router
