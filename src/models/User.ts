@@ -1,31 +1,36 @@
 import { Schema, Document, model } from 'mongoose'
 
 export type UserDocument = Document & {
-  username: String
+  name: String
+  email: String
+  password: String
   googleId: String
-  imgPath: String
+  imageUrl: String
   isAdmin: Boolean
 }
 
 const userSchema = new Schema(
   {
-    username: {
+    name: {
       type: String,
+      required: true
+    },
+    email: {
+      type: String, 
+      required: true
+    },
+    password: {
+      type: String, 
       required: true
     },
     googleId: {
       type: String, 
-      required: true, 
-      default: true
     },
-    imgPath: {
-      type: String,
-      trim: true,
-    },
+    imageUrl: String,
     isAdmin: {
       type: Boolean,
       default: false
-    }
+    }, 
   },
   {
     timestamps: true

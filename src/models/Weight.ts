@@ -10,11 +10,11 @@ const weightSchema = new Schema(
   {
     currentWeight: {
       type: Number,
-      required: true
+      default: 0
     },
     goalWeight: {
       type: Number,
-      required: true
+      default: 0
     },
     user: {
       type: Schema.Types.ObjectId,
