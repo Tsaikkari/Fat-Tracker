@@ -23,7 +23,7 @@ const findOrCreate = async (profile: any): Promise<UserDocument> => {
 }
 
 const create = async (name: string, email: string): Promise<UserDocument> => {
-  const hashedPassword = await hashPassword(name, email)
+  const hashedPassword = await bcrypt.hash(name, 10)
   return User.create({
     name,
     email,
@@ -53,9 +53,4 @@ const signToken = async (user: any) => {
   return userSerialized
 }
 
-const hashPassword = async (name: string, email: string) => {
-  const password = await bcrypt.hash(name, 10)
-  return password
-}
-
-export default { findOrCreate, create, findById, findByEmail, signToken, hashPassword }
+export default { findOrCreate, create, findById, findByEmail, signToken }

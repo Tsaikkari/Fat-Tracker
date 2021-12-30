@@ -29,14 +29,13 @@ export const googleLogin = async (
           if (user) {
             AuthService.signToken(user)
           } else {
-            // TODO: fix this is pending forever
             const newUser = AuthService.create(name, email)
             console.log('NEWUSER', newUser)
             if (err) {
               return next(new Error())
             }
-            AuthService.signToken(newUser)
-            console.log(newUser, 'NEWUSER')
+            const tokenizedUser = AuthService.signToken(newUser)
+            console.log(tokenizedUser, 'TOKENEDUSER')
           }
         }
       })
