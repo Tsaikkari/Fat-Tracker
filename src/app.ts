@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from 'express'
+import express from 'express'
 import passport from 'passport'
 import cors from 'cors'
 import 'dotenv/config'
@@ -19,14 +19,13 @@ app.use(express.json())
 
 app.use(
   cors({
-    origin:'*', 
-    credentials:true,           
+    origin: '*', 
+    credentials: true,           
   })
 )
 app.use(passport.initialize());
 
 passport.use(PassportStrategy.jwt)
-passport.use(PassportStrategy.google)
 
 app.use(responseHandler)
 

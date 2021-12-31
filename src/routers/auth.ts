@@ -1,18 +1,11 @@
 import express from 'express'
-import passport from 'passport'
 
-import { googleLogin, googleLogin2 } from '../controllers/auth'
+import { googleLogin, getUser } from '../controllers/auth'
+import verifyToken from '../middlewares/tokenVerify'
 
 const router = express.Router()
 
+router.get('/verify', verifyToken, getUser)
 router.post('/login/google', googleLogin)
-
-router.post('/google/callback', 
-  passport.authenticate('google', {
-    scope: ['profile', 'email'], 
-    session: false
-  }),
-  googleLogin2
-)
 
 export default router

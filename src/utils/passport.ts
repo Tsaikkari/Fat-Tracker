@@ -1,10 +1,8 @@
 import passportJWT, { ExtractJwt } from 'passport-jwt'
-import passportGoogle from 'passport-google-oauth20'
 
 import AuthService from '../services/auth'
 
 const JWTStrategy = passportJWT.Strategy
-const GoogleStrategy = passportGoogle.Strategy
 
 const jwt = new JWTStrategy(
   {
@@ -20,18 +18,4 @@ const jwt = new JWTStrategy(
   }
 )
 
-const google = new GoogleStrategy(
-  {
-    clientID: process.env.GOOGLE_CLIENT_ID as string,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-    callbackURL: '/api/auth/google/callback',
-    scope: ['profile', 'email'],
-  },
-  async (accessToken: any, refreshToken: any, profile: any, done: any) => {
-    console.log('profile :', profile)
-    const user = await AuthService.findOrCreate(profile)
-    return done(null, user)
-  }
-)
-
-export default { jwt, google }
+export default { jwt }
