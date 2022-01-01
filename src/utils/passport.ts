@@ -11,7 +11,6 @@ const jwt = new JWTStrategy(
   },
   async (jwtPayload, done) => {
     const user = await AuthService.findById(jwtPayload._id)
-    console.log(user, 'USER')
 
     if (!user) return done(null, false)
     return done(null, user)
