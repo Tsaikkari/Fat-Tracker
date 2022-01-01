@@ -29,13 +29,13 @@ export const googleLogin = async (
 
     if (exists && email_verified) {
       const serializedUser = await AuthService.signToken(exists)
-      console.log('serializedUser', serializedUser)
+      //console.log('serializedUser', serializedUser)
       res.deliver(200, 'Success', serializedUser)
     } else {
       if (email_verified) {
         const newUser = await AuthService.create(name, email)
         const tokenizedUser = await AuthService.signToken(newUser)
-        console.log(tokenizedUser, 'TOKENIZEDUSER')
+        //console.log(tokenizedUser, 'TOKENIZEDUSER')
         res.deliver(200, 'Success', tokenizedUser)
       } else {
         return next (new UnauthorizedError())

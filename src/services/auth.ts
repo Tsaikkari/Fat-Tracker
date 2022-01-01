@@ -15,7 +15,7 @@ const create = async (name: string, email: string): Promise<UserDocument> => {
 }
 
 const findById = async (id: string): Promise<UserDocument | null> => {
-  const user = await User.findById(id).populate('week', 'fattyFoods weights sports')
+  const user = await User.findById(id)
   
   return user
 }

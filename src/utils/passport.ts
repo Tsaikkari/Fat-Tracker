@@ -10,8 +10,8 @@ const jwt = new JWTStrategy(
     secretOrKey: process.env.JWT_TOKEN
   },
   async (jwtPayload, done) => {
-    const { userId } = jwtPayload
-    const user = await AuthService.findById(userId)
+    const user = await AuthService.findById(jwtPayload._id)
+    console.log(user, 'USER')
 
     if (!user) return done(null, false)
     return done(null, user)
