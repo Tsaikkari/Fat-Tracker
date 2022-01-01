@@ -6,6 +6,7 @@ import AuthService from '../services/auth'
 import {
   NotFoundError,
   InternalServerError,
+  UnauthorizedError,
 } from '../helpers/apiError'
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
@@ -24,30 +25,24 @@ export const googleLogin = async (
     })
     //@ts-ignore
     const { email_verified, name, email } = response.payload
+    const exists = await User.findOne({ email })
 
-    if (email_verified) {
-      User.findOne({ email }).exec((err, user) => {
-        if (err) {
-          return next(new NotFoundError('User not found'))
-        } else {
-          if (user) {
-            const serializedUser = AuthService.signToken(user)
-            console.log('serializedUser', serializedUser)
-            res.deliver(200, 'Success', serializedUser)
-          } else {
-            const newUser = AuthService.create(name, email)
-            if (err) {
-              return next(new InternalServerError())
-            }
-            const tokenizedUser = AuthService.signToken(newUser)
-            console.log(tokenizedUser, 'TOKENEDUSER')
-            res.deliver(200, 'Success', tokenizedUser)
-          }
-        }
-      })
+    if (exists && email_verified) {
+      const serializedUser = await AuthService.signToken(exists)
+      console.log('serializedUser', serializedUser)
+      res.deliver(200, 'Success', serializedUser)
+    } else {
+      if (email_verified) {
+        const newUser = await AuthService.create(name, email)
+        const tokenizedUser = await AuthService.signToken(newUser)
+        console.log(tokenizedUser, 'TOKENIZEDUSER')
+        res.deliver(200, 'Success', tokenizedUser)
+      } else {
+        return next (new UnauthorizedError())
+      } 
     }
   } catch (err) {
-    next(new Error())
+    next(new InternalServerError())
   }
 }
 

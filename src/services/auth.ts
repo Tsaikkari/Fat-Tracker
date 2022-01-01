@@ -23,8 +23,12 @@ const findById = async (id: string): Promise<UserDocument | null> => {
 const signToken = async (user: any) => {
   const token = jwt.sign({ _id: user._id }, jwtToken as string, { expiresIn: '1d' })
   const { _id, name, email } = user
-  const userSerialized = { _id, name, email, token }
-  return userSerialized
+  const userInfo = await User.findById(_id)
+  if (userInfo) {
+    const payload = { userInfo, token }
+    return payload
+  }
+  return null
 }
 
 export default { create, findById, signToken }
