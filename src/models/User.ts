@@ -1,5 +1,4 @@
 import { Schema, Document, model } from 'mongoose'
-import bcrypt from 'bcryptjs'
 
 export type UserDocument = Document & {
   name: String
@@ -33,7 +32,7 @@ const userSchema = new Schema(
     isAdmin: {
       type: Boolean,
       default: false
-    }, 
+    }
   },
   {
     timestamps: true

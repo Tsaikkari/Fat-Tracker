@@ -1,4 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
+const mailgun = require("mailgun-js");
+const DOMAIN = 'YOUR_DOMAIN_NAME';
+//const mg = mailgun({apiKey: api_key, domain: DOMAIN});
 
 import User from '../models/User'
 import UserService from '../services/user'

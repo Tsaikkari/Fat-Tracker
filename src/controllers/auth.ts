@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from 'express'
 import { OAuth2Client } from 'google-auth-library'
 import bcrypt from 'bcryptjs'
+import Mailgun from 'mailgun-js'
+import jwt from 'jsonwebtoken'
 
-import User from '../models/User'
 import AuthService from '../services/auth'
+import User from '../models/User'
 import {
   NotFoundError,
   InternalServerError,
@@ -12,6 +14,9 @@ import {
 } from '../helpers/apiError'
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
+const api_key = process.env.MG_API_KEY as string
+const DOMAIN = process.env.MG_DOMAIN_NAME as string
+const mg = new Mailgun({ apiKey: api_key, domain: DOMAIN })
 
 // POST /api/auth/google
 export const googleLogin = async (
@@ -27,7 +32,7 @@ export const googleLogin = async (
     })
     //@ts-ignore
     const { email_verified, name, email } = response.payload
-    const exists = await User.findOne({ email })
+    const exists = await AuthService.findByEmail(email)
 
     if (exists && email_verified) {
       const serializedUser = await AuthService.signToken(exists)
@@ -77,10 +82,77 @@ export const signup = async (
       return next(new BadRequestError('Email already exists'))
     }
 
-    const newUser = await AuthService.create(name, email)
-    res.deliver(201, 'Success', newUser)
+    const token = jwt.sign(
+      { name, email, password },
+      process.env.JWT_TOKEN as string,
+      { expiresIn: '100m' }
+    )
+
+    // const randomString = () => {
+    //   let result = ''
+    //   const chars = process.env.STRING
+    //   return result += chars?.charAt(Math.floor(Math.random() * chars.length))
+    // }
+
+    const data = {
+      from: 'cat@cat.com',
+      to: email,
+      subject: 'Account Activation Link',
+      html: `
+        <h2>Please click on the link to verify your account.</h2>
+        <a href='${process.env.CLIENT_URL}/authentication/verify/${token}'>${process.env.CLIENT_URL}/authentication/verify/${token}</a>
+      `,
+    }
+
+    mg.messages().send(data, function (err) {
+      if (err) {
+        res.deliver(404, 'Error')
+      }
+
+      res.deliver(200, 'Email has been sent, please verify your account')
+    })
   } catch (err) {
     next(new NotFoundError())
+  }
+}
+
+// POST /api/auth/email-verify 
+export const verifyAccountAndCreateUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { token } = req.body
+    if (token) {
+      jwt.verify(
+        token,
+        process.env.JWT_TOKEN as string,
+        async (err: any, decoded: any) => {
+          if (err) {
+            throw new Error(err.message)
+          }
+
+          const exists = await AuthService.findByEmail(decoded.email)
+
+          if (exists) {
+            throw new Error('Email already exists')
+          }
+
+          const newUser = await AuthService.create(
+            decoded.name,
+            decoded.email,
+            decoded.password
+          )
+          const withoutPW = await User.findOne({ email: newUser.email }).select(
+            '-password'
+          )
+          res.deliver(201, 'Success', withoutPW)
+        }
+      )
+    }
+  } catch (err) {
+    next(new InternalServerError())
   }
 }
 
@@ -92,12 +164,11 @@ export const localLogin = async (
 ) => {
   try {
     const { email, password } = req.body
-    const user = await User.findOne({ email })
+    const user = await AuthService.findByEmail(email)
 
     if (user) {
       //@ts-ignore
       const isValid = bcrypt.compare(password, user.password)
-      console.log(isValid, 'ISVALID')
 
       if (isValid) {
         const validatedUser = await AuthService.signToken(user)
