@@ -88,12 +88,6 @@ export const signup = async (
       { expiresIn: '100m' }
     )
 
-    // const randomString = () => {
-    //   let result = ''
-    //   const chars = process.env.STRING
-    //   return result += chars?.charAt(Math.floor(Math.random() * chars.length))
-    // }
-
     const data = {
       from: 'cat@cat.com',
       to: email,
