@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'
 
 const jwtToken = process.env.JWT_TOKEN
 
+// google && local
 const create = async (
   name: string,
   email: string,

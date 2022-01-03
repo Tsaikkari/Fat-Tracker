@@ -51,6 +51,7 @@ export const googleLogin = async (
   }
 }
 
+// local with verify email
 // POST /api/auth/signup
 export const signup = async (
   req: Request,
