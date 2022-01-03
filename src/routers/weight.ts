@@ -1,8 +1,20 @@
 import express from 'express'
-import { updateWeight } from '../controllers/weight'
+
+import verifyToken from '../middlewares/tokenVerify'
+import {
+  updateWeight,
+  deleteWeight,
+  findAll,
+  findUserWeight,
+  createWeight
+} from '../controllers/weight'
 
 const router = express.Router()
 
-router.put('/:weightId', updateWeight)
+router.get('/', verifyToken, findAll)
+router.get('/', verifyToken, findUserWeight)
+router.post('/', verifyToken, createWeight)
+router.put('/:weightId', verifyToken, updateWeight)
+router.delete('/:weightId', verifyToken, deleteWeight)
 
 export default router

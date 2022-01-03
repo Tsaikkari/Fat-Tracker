@@ -2,23 +2,25 @@ import { Schema, Document, model } from 'mongoose'
 
 export type SportDocument = Document & {
   name: String
-  date: Date
+  date: String
   duration: Number
   user: Schema.Types.ObjectId
+  week: Schema.Types.ObjectId
 }
 
 const sportSchema = new Schema(
   {
     name: {
       type: String,
-      required: true
+      required: true,
     },
-    date: Date,
+    date: String,
     duration: Number,
-    user: { type: Schema.Types.ObjectId, ref: 'User' }
+    user: { type: Schema.Types.ObjectId, ref: 'User' },
+    week: { type: Schema.Types.ObjectId, ref: 'Week' },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 )
 

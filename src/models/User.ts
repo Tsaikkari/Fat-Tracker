@@ -13,29 +13,29 @@ const userSchema = new Schema(
   {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     email: {
-      type: String, 
+      type: String,
       required: true,
-      unique: true, 
-      trim: true
+      unique: true,
+      trim: true,
     },
     password: {
-      type: String, 
-      required: true
+      type: String,
+      required: true,
     },
     googleId: {
-      type: String, 
+      type: String,
     },
     imageUrl: String,
     isAdmin: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 )
 

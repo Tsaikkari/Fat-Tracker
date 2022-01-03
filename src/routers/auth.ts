@@ -1,7 +1,13 @@
 import express from 'express'
 
-import { googleLogin, getUser, signup, localLogin, verifyAccountAndCreateUser } from '../controllers/auth'
 import verifyToken from '../middlewares/tokenVerify'
+import {
+  googleLogin,
+  getUser,
+  signup,
+  localLogin,
+  verifyAccountAndCreateUser,
+} from '../controllers/auth'
 
 const router = express.Router()
 

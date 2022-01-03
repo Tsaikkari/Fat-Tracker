@@ -85,7 +85,7 @@ export const signup = async (
     const token = jwt.sign(
       { name, email, password },
       process.env.JWT_TOKEN as string,
-      { expiresIn: '100m' }
+      { expiresIn: '20m' }
     )
 
     const data = {
@@ -101,16 +101,21 @@ export const signup = async (
     mg.messages().send(data, function (err) {
       if (err) {
         res.deliver(404, 'Error')
+        return next(new NotFoundError())
       }
 
       res.deliver(200, 'Email has been sent, please verify your account')
     })
   } catch (err) {
-    next(new NotFoundError())
+    if ('ValidationError') {
+      next(new BadRequestError('Invalid Request'))
+    } else {
+      next(new InternalServerError('Internal Server Error'))
+    }
   }
 }
 
-// POST /api/auth/email-verify 
+// POST /api/auth/email-verify
 export const verifyAccountAndCreateUser = async (
   req: Request,
   res: Response,

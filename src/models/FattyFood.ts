@@ -5,27 +5,28 @@ export type FattyFoodDocument = Document & {
   chosenDate: Date
   actualDate: Date[]
   user: Schema.Types.ObjectId
+  week: Schema.Types.ObjectId
 }
 
 const fattyFoodSchema = new Schema(
   {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     chosenDate: {
-      type: Date,
-      required: true
+      type: String,
+      required: true,
     },
-    actualDate: [Date],
+    actualDate: [String],
     user: {
       type: Schema.Types.ObjectId,
-      required: true,
-      ref: 'User'
-    }
+      ref: 'User',
+    },
+    week: { type: Schema.Types.ObjectId, ref: 'Week' },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 )
 
