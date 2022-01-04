@@ -32,6 +32,10 @@ const MONGO_URI =
   process.env.MONGODB_URI || 'mongodb://localhost/< name of the db>'
 ```
 
+### Create an application in the google developers console and set the appropriate frontend urls
+
+- Include oauth env variables in your .env file
+
 ### Create a Mailgun account and include env variables in your .env file
 
 - Mailgun free tier: You can only send to Authorized Recipients that you need to enter inside your account manually; there is a maximum of 5 Authorized Recipients.

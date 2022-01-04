@@ -77,6 +77,7 @@ export const signup = async (
       next(new BadRequestError('Password must have at least 8 characters'))
       return
     }
+    
     const exists = await AuthService.findByEmail(email)
 
     if (exists) {
