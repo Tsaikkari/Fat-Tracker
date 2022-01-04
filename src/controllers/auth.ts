@@ -12,6 +12,7 @@ import {
   UnauthorizedError,
   BadRequestError,
 } from '../helpers/apiError'
+import { dataValidation, verifyEmailContent } from '../helpers/localSignup'
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 const api_key = process.env.MG_API_KEY as string
@@ -60,24 +61,7 @@ export const signup = async (
 ) => {
   try {
     const { name, email, password } = req.body
-
-    if (email === '' || password === '' || name === '') {
-      next(new BadRequestError('Provide name, email and password'))
-      return
-    }
-
-    const emailValid = email.includes('@')
-
-    if (!emailValid) {
-      next(new BadRequestError('Provide a valid email address.'))
-      return
-    }
-
-    if (password.length < 8) {
-      next(new BadRequestError('Password must have at least 8 characters'))
-      return
-    }
-    
+    dataValidation(name, email, password)
     const exists = await AuthService.findByEmail(email)
 
     if (exists) {
@@ -90,17 +74,9 @@ export const signup = async (
       { expiresIn: '20m' }
     )
 
-    const data = {
-      from: 'cat@cat.com',
-      to: email,
-      subject: 'Account Activation Link',
-      html: `
-        <h2>Please click on the link to verify your account.</h2>
-        <a href='${process.env.CLIENT_URL}/authentication/verify/${token}'>${process.env.CLIENT_URL}/authentication/verify/${token}</a>
-      `,
-    }
+    const data = verifyEmailContent(token, email)
 
-    mg.messages().send(data, function (err) {
+    await mg.messages().send(data, function (err) {
       if (err) {
         res.deliver(404, 'Error')
         return next(new NotFoundError())
@@ -168,13 +144,14 @@ export const localLogin = async (
     const user = await AuthService.findByEmail(email)
 
     if (user) {
-      //@ts-ignore
-      const isValid = bcrypt.compare(password, user.password)
+      const isValid = bcrypt.compare(password, user.password as string)
 
-      if (isValid) {
-        const validatedUser = await AuthService.signToken(user)
-        res.deliver(200, 'Success', validatedUser)
+      if (!isValid) {
+        throw new Error('Invalid username or password')
       }
+
+      const validatedUser = await AuthService.signToken(user)
+      res.deliver(200, 'Success', validatedUser)
     }
   } catch (err) {
     next(new InternalServerError())
