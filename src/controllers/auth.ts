@@ -147,7 +147,7 @@ export const localLogin = async (
       const isValid = bcrypt.compare(password, user.password as string)
 
       if (!isValid) {
-        throw new Error('Invalid username or password')
+        throw new Error('Invalid email or password')
       }
 
       const validatedUser = await AuthService.signToken(user)
