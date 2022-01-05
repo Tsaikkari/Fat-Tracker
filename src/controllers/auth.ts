@@ -143,16 +143,18 @@ export const localLogin = async (
     const { email, password } = req.body
     const user = await AuthService.findByEmail(email)
 
-    if (user) {
-      const isValid = bcrypt.compare(password, user.password as string)
-
-      if (!isValid) {
-        throw new Error('Invalid email or password')
-      }
-
-      const validatedUser = await AuthService.signToken(user)
-      res.deliver(200, 'Success', validatedUser)
+    if (!user) {
+      return next(new BadRequestError('User not found'))
     }
+
+    const isValid = bcrypt.compare(password, user.password as string)
+
+    if (!isValid) {
+      return next(new BadRequestError('Invalid email or password'))
+    }
+
+    const validatedUser = await AuthService.signToken(user)
+    res.deliver(200, 'Success', validatedUser)
   } catch (err) {
     next(new InternalServerError())
   }
