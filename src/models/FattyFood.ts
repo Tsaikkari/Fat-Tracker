@@ -2,8 +2,8 @@ import { Schema, Document, model } from 'mongoose'
 
 export type FattyFoodDocument = Document & {
   name: String
-  chosenDate: Date
-  actualDate: Date[]
+  chosenDate: String
+  actualDate: String[]
   user: Schema.Types.ObjectId
   week: Schema.Types.ObjectId
 }
