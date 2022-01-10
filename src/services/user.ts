@@ -6,6 +6,18 @@ const findAll = (): Promise<UserDocument[]> => {
     .exec() 
 }
 
+const getProfile = async (userId: string): Promise<UserDocument> => {
+  return await User.findById(userId)
+    .exec() 
+    .then((user) => {
+      if (!user) {
+        throw new Error(`User ${user} not found.`)
+      }
+
+      return user
+    })
+}
+
 const updateUser = async (userId: string, update: Partial<UserDocument>): Promise<UserDocument> => {
   return await User.findByIdAndUpdate(userId, update)
     .exec()
@@ -18,5 +30,5 @@ const updateUser = async (userId: string, update: Partial<UserDocument>): Promis
     })
 }
 
-export default { findAll, updateUser }
+export default { findAll, updateUser, getProfile }
 

@@ -21,6 +21,23 @@ export const getUsers = async (
   }
 }
 
+// GET api/users/profile
+export const getUserProfile = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const profileInfo = await UserService.getProfile(req.params.userId)
+
+    if (profileInfo) {
+      res.deliver(200, 'Success', profileInfo)
+    }
+  } catch (err) {
+    next(new NotFoundError('User not found'))
+  }
+}
+
 // PUT api/users/:userId
 export const updateUser = async (
   req: Request,
