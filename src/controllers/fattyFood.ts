@@ -58,7 +58,6 @@ export const createFattyFood = async (
       })
 
       const createdFattyFood = await FattyFoodService.createFattyFood(fattyFood)
-      console.log(createdFattyFood)
 
       const updatedWeek = await Week.findByIdAndUpdate(
         fattyFood.week,

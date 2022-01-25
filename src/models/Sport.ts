@@ -1,7 +1,7 @@
 import { Schema, Document, model } from 'mongoose'
 
 export type SportDocument = Document & {
-  name: String
+  sport: String
   date: String
   duration: Number
   user: Schema.Types.ObjectId
@@ -10,7 +10,7 @@ export type SportDocument = Document & {
 
 const sportSchema = new Schema(
   {
-    name: {
+    sport: {
       type: String,
       required: true,
     },

@@ -12,7 +12,7 @@ import {
 const router = express.Router()
 
 router.get('/', verifyToken, findAll)
-router.get('/', verifyToken, findUserSport)
+router.get('/user', verifyToken, findUserSport)
 router.post('/', verifyToken, createSport)
 router.put('/:sportId', verifyToken, updateSport)
 router.delete('/:sportId', verifyToken, deleteSport)

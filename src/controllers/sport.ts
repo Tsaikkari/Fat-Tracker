@@ -45,22 +45,22 @@ export const createSport = async (
   next: NextFunction
 ) => {
   try {
-    const { name, date, duration, weekId } = req.body
+    const { sport, date, duration, weekId } = req.body
     const userId = req.user._id
 
     if (userId) {
-      const sport = new Sport({
-        name, 
+      const sporty = new Sport({
+        sport, 
         date, 
         duration, 
         user: userId,
         week: weekId
       })
 
-      const createdSport = await SportService.createSport(sport)
+      const createdSport = await SportService.createSport(sporty)
     
       const updatedWeek = await Week.findByIdAndUpdate(
-        sport.week, 
+        sporty.week, 
         {
           $push: { sports: createdSport._id }
         }

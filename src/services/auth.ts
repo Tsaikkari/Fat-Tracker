@@ -10,21 +10,13 @@ const create = async (
   email: string,
   password?: string
 ): Promise<UserDocument> => {
-  if (!password) {
-    const hashedPassword = await bcrypt.hash(name, 10)
+  const hashedPassword = await bcrypt.hash(name, 10)
 
-    return User.create({
-      name,
-      email,
-      password: hashedPassword,
-    })
-  } else {
-    return User.create({
-      name,
-      email,
-      password,
-    })
-  }
+  return User.create({
+    name,
+    email,
+    password: hashedPassword,
+  })
 }
 
 const findById = async (id: string): Promise<UserDocument | null> => {

@@ -32,8 +32,6 @@ export const findUserWeeks = async (
         .populate('weights', 'id currentWeight goalWeight')
         .populate('fattyFoods', 'id name chosenDate actualDate')
 
-      console.log(weeks)
-
       res.deliver(200, 'Success', weeks)
     }
   } catch (err) {
