@@ -3,6 +3,7 @@ import { Schema, Document, model } from 'mongoose'
 export type WeightDocument = Document & {
   currentWeight: Number
   goalWeight: Number
+  achievedWeight: Number
   user: Schema.Types.ObjectId
   week: Schema.Types.ObjectId
 }
@@ -16,6 +17,10 @@ const weightSchema = new Schema(
     goalWeight: {
       type: Number,
       default: 0,
+    },
+    achievedWeight: {
+      type: Number,
+      default: 0
     },
     user: {
       type: Schema.Types.ObjectId,

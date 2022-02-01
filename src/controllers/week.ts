@@ -30,7 +30,7 @@ export const findUserWeeks = async (
       const weeks = await Week.find({ user })
         .populate('sports', 'id name duration date')
         .populate('weights', 'id currentWeight goalWeight')
-        .populate('fattyFoods', 'id name chosenDate actualDate')
+        .populate('fattyFoods', 'id name chosenDate')
 
       res.deliver(200, 'Success', weeks)
     }

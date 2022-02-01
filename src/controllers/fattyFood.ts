@@ -29,7 +29,7 @@ export const findUserFattyFoods = async (
     const user = req.user
     const fattyFoods = await FattyFood.find({ user }).populate(
       'user',
-      'id name chosenDate actualDate week'
+      'id name chosenDate week'
     )
 
     res.deliver(200, 'Success', fattyFoods)
@@ -45,14 +45,13 @@ export const createFattyFood = async (
   next: NextFunction
 ) => {
   try {
-    const { name, chosenDate, actualDate, weekId } = req.body
+    const { name, chosenDate, weekId } = req.body
     const userId = req.user._id
 
     if (userId) {
       const fattyFood = new FattyFood({
         name,
         chosenDate,
-        actualDate,
         user: userId,
         week: weekId
       })

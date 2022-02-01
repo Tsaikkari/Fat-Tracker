@@ -29,7 +29,7 @@ export const findUserWeight = async (
     const user = req.user
     const weights = await Weight.find({ user }).populate(
       'user',
-      'id currentWeight goalWeight week'
+      'id currentWeight goalWeight achievedWeight week'
     )
 
     res.deliver(200, 'Success', weights)

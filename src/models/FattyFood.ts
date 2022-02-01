@@ -3,7 +3,6 @@ import { Schema, Document, model } from 'mongoose'
 export type FattyFoodDocument = Document & {
   name: String
   chosenDate: String
-  actualDate: String[]
   user: Schema.Types.ObjectId
   week: Schema.Types.ObjectId
 }
@@ -18,7 +17,6 @@ const fattyFoodSchema = new Schema(
       type: String,
       required: true,
     },
-    actualDate: [String],
     user: {
       type: Schema.Types.ObjectId,
       ref: 'User',
