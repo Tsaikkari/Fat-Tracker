@@ -27,10 +27,7 @@ export const findUserFattyFoods = async (
 ) => {
   try {
     const user = req.user
-    const fattyFoods = await FattyFood.find({ user }).populate(
-      'user',
-      'id name chosenDate week'
-    )
+    const fattyFoods = await FattyFood.find({ user })
 
     res.deliver(200, 'Success', fattyFoods)
   } catch (err) {

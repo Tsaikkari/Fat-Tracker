@@ -28,7 +28,7 @@ export const findUserWeeks = async (
     const user = req.user
     if (user) {
       const weeks = await Week.find({ user })
-        .populate('sports', 'id name duration date')
+        .populate('sports', 'id sport duration date')
         .populate('weights', 'id currentWeight goalWeight achievedWeight')
         .populate('fattyFoods', 'id name chosenDate')
 

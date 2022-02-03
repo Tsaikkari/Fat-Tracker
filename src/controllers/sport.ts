@@ -27,10 +27,7 @@ export const findUserSport = async (
 ) => {
   try {
     const user = req.user
-    const sports = await Sport.find({ user }).populate(
-      'user',
-      'id name date duration week'
-    )
+    const sports = await Sport.find({ user })
 
     res.deliver(200, 'Success', sports)
   } catch (err) {
