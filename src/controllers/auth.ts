@@ -121,10 +121,11 @@ export const verifyAccountAndCreateUser = async (
             decoded.email,
             decoded.password
           )
-          const withoutPW = await User.findOne({ email: newUser.email }).select(
+
+          const createdUser = await User.findOne({ email: newUser.email }).select(
             '-password'
           )
-          res.deliver(201, 'Success', withoutPW)
+          res.deliver(201, 'Success', createdUser)
         }
       )
     }
