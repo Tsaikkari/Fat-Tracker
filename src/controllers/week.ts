@@ -32,7 +32,9 @@ export const findUserWeeks = async (
         .populate('weights', 'id currentWeight goalWeight achievedWeight')
         .populate('fattyFoods', 'id name chosenDate')
 
-      res.deliver(200, 'Success', weeks)
+      const reversedWeeks = weeks.reverse()
+
+      res.deliver(200, 'Success', reversedWeeks)
     }
   } catch (err) {
     next(new NotFoundError('User weeks not found'))

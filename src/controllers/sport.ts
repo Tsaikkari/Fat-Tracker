@@ -44,6 +44,7 @@ export const createSport = async (
   try {
     const { sport, date, duration, weekId } = req.body
     const userId = req.user._id
+    console.log(req.body, 'SPORT')
 
     if (userId) {
       const sporty = new Sport({

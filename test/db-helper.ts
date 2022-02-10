@@ -3,6 +3,8 @@ import { MongoMemoryServer } from 'mongodb-memory-server'
 
 const mongod = new MongoMemoryServer()
 
+// TODO: error connecting and wipes out db
+
 export const connect = async () => {
   const uri = await mongod.getUri()
 
@@ -12,8 +14,8 @@ export const connect = async () => {
     reconnectTries: Number.MAX_VALUE,
     reconnectInterval: 1000,
   }
-
-  await mongoose.connect(uri)
+  //@ts-ignore
+  await mongoose.connect(uri, mongooseOpts)
 }
 
 export const closeDatabase = async () => {
@@ -27,6 +29,6 @@ export const clearDatabase = async () => {
 
   for (const key in collections) {
     const collection = collections[key]
-    //await collection.deleteAll({})
+    await collection.deleteMany({})
   }
 }

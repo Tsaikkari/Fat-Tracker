@@ -11,6 +11,12 @@ Dependencies:
 $ npm install
 ```
 
+Translate to JS:
+
+```sh
+$ npm run build-ts
+```
+
 ## RUN
 
 ```sh
