@@ -43,9 +43,7 @@ export const createFattyFood = async (
 ) => {
   try {
     const { name, chosenDate, weekId } = req.body
-    console.log(req.body, 'ff')
     const userId = req.user._id
-    console.log(userId, 'userId')
 
     if (userId) {
       const fattyFood = new FattyFood({

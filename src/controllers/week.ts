@@ -28,9 +28,9 @@ export const findUserWeeks = async (
     const user = req.user
     if (user) {
       const weeks = await Week.find({ user })
-        .populate('sports', 'id sport duration date')
-        .populate('weights', 'id currentWeight goalWeight achievedWeight')
-        .populate('fattyFoods', 'id name chosenDate')
+        .populate('sports', 'id sport duration date week')
+        .populate('weights', 'id currentWeight goalWeight achievedWeight week')
+        .populate('fattyFoods', 'id name chosenDate week')
 
       const reversedWeeks = weeks.reverse()
 
