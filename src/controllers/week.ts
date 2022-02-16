@@ -55,7 +55,7 @@ export const createWeek = async (
       const week = new Week({
         date,
         fattyFoods: [],
-        weights: [],
+        weights: {},
         sports: [],
         user: userId,
       })

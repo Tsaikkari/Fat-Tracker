@@ -13,8 +13,12 @@ const weekSchema = new Schema({
     type: String,
     required: true,
   },
+  weights: {
+    currentWeight: Number,
+    goalWeight: Number,
+    achievedWeight: Number
+  },
   fattyFoods: [{ type: Schema.Types.ObjectId, ref: 'FattyFood' }],
-  weights: [{ type: Schema.Types.ObjectId, ref: 'Weight' }],
   sports: [{ type: Schema.Types.ObjectId, ref: 'Sport' }],
   user: {
     type: Schema.Types.ObjectId,
