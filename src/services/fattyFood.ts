@@ -13,7 +13,7 @@ const updateFattyFood = async (
   fattyFoodId: string,
   update: Partial<FattyFoodDocument>
 ): Promise<FattyFoodDocument> => {
-  return await FattyFood.findByIdAndUpdate(fattyFoodId, update)
+  return await FattyFood.findByIdAndUpdate(fattyFoodId, update, { new: true })
     .exec()
     .then((fattyFood) => {
       if (!fattyFood) {

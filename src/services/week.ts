@@ -12,7 +12,7 @@ const updateWeek = async (
   weekId: string,
   update: Partial<WeekDocument>
 ): Promise<WeekDocument> => {
-  return await Week.findByIdAndUpdate(weekId, update)
+  return await Week.findByIdAndUpdate(weekId, update, { new: true })
     .exec()
     .then((week) => {
       if (!week) {

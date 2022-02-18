@@ -31,6 +31,7 @@ export const googleLogin = async (
       idToken,
       audience: process.env.GOOGLE_CLIENT_ID,
     })
+
     //@ts-ignore
     const { email_verified, name, email } = response.payload
     const exists = await AuthService.findByEmail(email)

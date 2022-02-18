@@ -45,7 +45,10 @@ export const updateUser = async (
   next: NextFunction
 ) => {
   try {
-    const updatedUser = await UserService.updateUser(req.params.userId, req.body)
+    const updatedUser = await UserService.updateUser(
+      req.params.userId,
+      req.body
+    )
     res.deliver(201, 'Updated', updatedUser)
   } catch (err) {
     next(new NotFoundError('User not found'))

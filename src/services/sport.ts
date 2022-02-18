@@ -12,7 +12,7 @@ const updateSport = async (
   sportId: string,
   update: Partial<SportDocument>
 ): Promise<SportDocument> => {
-  return await Sport.findByIdAndUpdate(sportId, update)
+  return await Sport.findByIdAndUpdate(sportId, update, { new: true })
     .exec()
     .then((sport) => {
       if (!sport) {

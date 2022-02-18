@@ -6,7 +6,7 @@ export type UserDocument = Document & {
   password: String
   googleId: String
   imageUrl: String
-  lifeStyleChanges: String[]
+  lifeStyles: String
   isAdmin: Boolean
 }
 
@@ -30,7 +30,7 @@ const userSchema = new Schema(
       type: String,
     },
     imageUrl: String,
-    lifeStyleChanges: [String],
+    lifeStyles: String,
     isAdmin: {
       type: Boolean,
       default: false,
